@@ -113,7 +113,12 @@ document.querySelector('#board tbody').addEventListener('click', function (event
         doGuess();
     }
 });
-function doGuess() {
+
+function yld() {
+    return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+}
+
+async function doGuess() {
     const wordsAndResults = cells.map((r) => ({
         word: r
             .map((x) => x.innerText)
@@ -135,11 +140,15 @@ function doGuess() {
     if (i >= wordsAndResults.length)
         return;
     console.log(afterGuess);
+	document.body.classList.add("wait");
+	await yld();
     const g = bestGuess(afterGuess, words);
+	await yld();
+	document.body.classList.remove("wait");
+	
     cells[i].forEach((c, j) => { var _a; return (c.innerText = (_a = g[j]) !== null && _a !== void 0 ? _a : '?'); });
 }
-const toggleHelp = (ev) => {
-    console.log(ev.target);
+const toggleHelp = (ev) => {    
     const el = document.getElementById('how-to-play');
     el.style.display = el.style.display !== 'block' ? 'block' : 'none';
 };
