@@ -13,6 +13,12 @@
   --key-text-color: var(--color-tone-1);
   --color-background:var(--color-tone-7);
 }
+.wait {
+	cursor: wait !important; 
+}
+.wait * {    
+	pointer-events: none !important; 
+}
 html {
   height: 100%;
 }
