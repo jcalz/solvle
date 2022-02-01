@@ -43,8 +43,9 @@ body {
 
 #board td.guess-button span::after {
   content: 'guess';
-  font-size: 0.3em;
+  font-size: 3vmin;
   font-weight: 300;
+  vertical-align: middle;  
 }
 
 ul {
@@ -54,21 +55,24 @@ ul {
 .absent {
   background-color: var(--color-absent);
   color: var(--tile-text-color) !important;
+  border: 1px solid white !important;
 }
 .present {
   background-color: var(--color-present);
   color: var(--tile-text-color) !important;
+  border: 1px solid white !important;
 }
 .correct {
   background-color: var(--color-correct);
   color: var(--tile-text-color) !important;
+  border: 1px solid white !important;
 }
 
 #explain {
   margin: auto;
   width: 50%;
   text-align: center;
-  font-size: 0.5em;
+  font-size: 2.5vmin;
 }
 #how-to-play {
   position: absolute;
@@ -79,6 +83,7 @@ ul {
   margin-right: auto;
   margin-bottom: 2vmin;
   width: 80vmin;
+  font-size: 3vmin;
   height: auto;
   padding: 4px;
   border: 1px solid black;
@@ -86,13 +91,13 @@ ul {
   right: 0;
 }
 #help-button {
-  font-size: 200%;
+  font-size: 4vmin;
   border: 1px solid black;
-  padding: 2px;
+  padding: 0.5vmin;
   user-select: none;
 }
 #caption {
-  font-size: 2em;
+  font-size: 8vmin;
   font-weight: 700;
   margin: auto;
   width: 50%;
