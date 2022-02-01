@@ -1,3 +1,2 @@
 Solvle
 
-github.io maybe?
