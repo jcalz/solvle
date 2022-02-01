@@ -1,0 +1,100 @@
+:root {
+  --green: #6aaa64;
+  --yellow: #c9b458;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  --color-tone-1: #1a1a1b;
+  --color-tone-2: #787c7e;
+  --color-tone-7: #ffffff;
+  --color-present: var(--yellow);
+  --color-correct: var(--green);
+  --color-absent: var(--color-tone-2);
+  --tile-text-color: var(--color-tone-7);
+  --key-text-color: var(--color-tone-1);
+  --color-background:var(--color-tone-7);
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background-color: var(--color-background);
+  margin: 0;
+  padding: 0;
+}
+#board {
+  margin: auto;
+  width: 80vmin;
+  height: 80vmin;
+  padding: 0px;
+}
+#board td {
+  border: 1px solid black;
+  width: 15%;
+  height: 15%;
+  vertical-align: middle;
+  padding: 0px;
+  text-align: center;
+  font-size: 10vmin;
+  font-weight: 700;
+  color: var(--key-text-color);
+  user-select: none;
+}
+
+#board td.guess-button span::after {
+  content: 'guess';
+  font-size: 0.3em;
+  font-weight: 300;
+}
+
+ul {
+  list-style-position: inside;
+  padding-left: 0.5em;
+}
+.absent {
+  background-color: var(--color-absent);
+  color: var(--tile-text-color);
+}
+.present {
+  background-color: var(--color-present);
+  color: var(--tile-text-color);
+}
+.correct {
+  background-color: var(--color-correct);
+  color: var(--tile-text-color);
+}
+
+#explain {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  font-size: 0.5em;
+}
+#how-to-play {
+  position: absolute;
+  background-color: var(--color-background);
+  z-index: 100;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2vmin;
+  width: 80vmin;
+  height: auto;
+  padding: 4px;
+  border: 1px solid black;
+  left: 0;
+  right: 0;
+}
+#help-button {
+  font-size: 200%;
+  border: 1px solid black;
+  padding: 2px;
+  user-select: none;
+}
+#caption {
+  font-size: 2em;
+  font-weight: 700;
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
