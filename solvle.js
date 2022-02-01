@@ -134,10 +134,12 @@ function doGuess() {
     }
     if (i >= wordsAndResults.length)
         return;
+    console.log(afterGuess);
     const g = bestGuess(afterGuess, words);
     cells[i].forEach((c, j) => { var _a; return (c.innerText = (_a = g[j]) !== null && _a !== void 0 ? _a : '?'); });
 }
-const toggleHelp = () => {
+const toggleHelp = (ev) => {
+    console.log(ev.target);
     const el = document.getElementById('how-to-play');
     el.style.display = el.style.display !== 'block' ? 'block' : 'none';
 };
