@@ -53,15 +53,15 @@ ul {
 }
 .absent {
   background-color: var(--color-absent);
-  color: var(--tile-text-color);
+  color: var(--tile-text-color) !important;
 }
 .present {
   background-color: var(--color-present);
-  color: var(--tile-text-color);
+  color: var(--tile-text-color) !important;
 }
 .correct {
   background-color: var(--color-correct);
-  color: var(--tile-text-color);
+  color: var(--tile-text-color) !important;
 }
 
 #explain {
