@@ -14,7 +14,6 @@ const bestResult = [G, G, G, G, G].join('');
 function rateGuess(actualWord, guess) {
     var _a;
     const result = [B, B, B, B, B];
-    let idx = [0, 1, 2, 3, 4];
     let rest = {};
     for (let i = 0; i < 5; i++) {
         if (actualWord[i] === guess[i]) {
@@ -65,7 +64,7 @@ function bestGuess(possibleWords, guessableWords) {
         for (const possibleWord of possibleWords) {
             const result = rateGuess(possibleWord, guess);
             const key = result.join('');
-            numWordsForResult[key] = ((_a = numWordsForResult[key]) !== null && _a !== void 0 ? _a : 0) + 1;
+            numWordsForResult[key] = (numWordsForResult[key]||0) + 1;
         }
         let n = 0;
         let w = 0;
@@ -119,7 +118,29 @@ function yld() {
 }
 
 async function doGuess() {
-    const wordsAndResults = cells.map((r) => ({
+	// if the player put any absent (black) letter earlier in the word
+	// than the same letter as present (yellow) then this is a mistake
+	// and they should be swapped. (e.g., in CANAL, you can have 
+	// the first A be 🟨 and the second a be ⬛ but not vice versa)
+	cells.forEach(r => {
+		const seenAbsent = {};
+		for (let i = 0; i < r.length; i++) {
+			const c = r[i];
+			const letter = c.innerText.toUpperCase();
+			if ((letter in seenAbsent) && c.classList.contains("present")) {
+			    const cSwap = r[seenAbsent[letter]];					
+				cSwap.classList.remove("absent");
+				cSwap.classList.add("present");
+				c.classList.remove("present");
+				c.classList.add("absent");				
+			} 
+			if (c.classList.contains("absent")) {
+				seenAbsent[letter] = i;
+			}			
+		}
+	});
+    
+	const wordsAndResults = cells.map((r) => ({
         word: r
             .map((x) => x.innerText)
             .join('')
@@ -144,9 +165,9 @@ async function doGuess() {
 	await yld();
     const g = bestGuess(afterGuess, words);
 	await yld();
-	document.body.classList.remove("wait");
+	document.body.classList.remove("wait");	
 	
-    cells[i].forEach((c, j) => { var _a; return (c.innerText = (_a = g[j]) !== null && _a !== void 0 ? _a : '?'); });
+    cells[i].forEach((c, j) => c.innerText = g[j]||'?');
 }
 const toggleHelp = (ev) => {    
     const el = document.getElementById('how-to-play');
