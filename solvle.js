@@ -106,6 +106,17 @@ document.querySelector('#board tbody').addEventListener('click', function (event
             if (idx >= 0)
                 td.classList.remove(cellStates[idx]);
             td.classList.add(cellStates[(idx + 1) % cellStates.length]);
+			let found = false;
+			for (const r of cells) {
+				if (found) r.forEach(c => {
+					c.innerText="";
+					c.classList.remove("present","absent","correct");
+				});
+				for (const c of r) {
+					if (td === c) {found = true;}
+				}
+				
+			}
         }
     }
     else {
