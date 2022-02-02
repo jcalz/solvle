@@ -128,14 +128,16 @@ async function doGuess() {
 			const c = r[i];
 			const letter = c.innerText.toUpperCase();
 			if ((letter in seenAbsent) && c.classList.contains("present")) {
-			    const cSwap = r[seenAbsent[letter]];					
+			    const j = seenAbsent[letter].shift();
+				const cSwap = r[j];					
 				cSwap.classList.remove("absent");
 				cSwap.classList.add("present");
 				c.classList.remove("present");
 				c.classList.add("absent");				
 			} 
 			if (c.classList.contains("absent")) {
-				seenAbsent[letter] = i;
+				seenAbsent[letter] = seenAbsent[letter]||[];
+				seenAbsent[letter].push(i);
 			}			
 		}
 	});
