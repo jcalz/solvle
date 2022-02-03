@@ -1,106 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>SOLVLE</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="allWords.js"></script>
-    <script src="possibleSolutions.js"></script>    
-  </head>
-  <body>
-    <div id="caption">SOLVLE</div>
-    <div id="how-to-play" class="help">
-      <div style="text-align: right">╳</div>
-      You know what
-      <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank"
-        >WORDLE</a
-      >
-      is, right? Where the program has a secret 5-letter word and you have to
-      guess it? In SOLVLE the roles are reversed. You have a secret 5-letter
-      word and the program has to guess it.
-      <br /><br />
-      Click the tiles with a letter in it to change its color.
-      <ul>
-        <li>
-          If a letter is not in the word, use
-          <span class="absent">THIS COLOR</span>
-        </li>
-        <li>
-          If a letter is in the word but not the right spot, use
-          <span class="present">THIS COLOR</span>
-        </li>
-        <li>
-          If a letter is in the word and in the correct spot, use
-          <span class="correct">THIS COLOR</span>
-        </li>
-      </ul>
-      Once you have rated all five letters in the word, click "guess" to get the
-      program's next guess. 
-      <br />
-      <br />
-      You can use SOLVLE to play WORDLE, by using SOLVLE's guesses in WORDLE and
-      then using WORDLE's color ratings in SOLVLE.
-      <br /><br />
-      If you want to use SOLVLE to cheat even more you can click the "Cheat
-      more" checkbox, and then SOLVLE will assume that the hidden word is 
-      a known WORDLE solution.
-    </div>
-    <div id="explain">
-      <span id="help-button" class="help">?</span>
-      <br />
-      <input id="cheat-more" type="checkbox" /><label for="cheat-more"
-        >Cheat more (target known wordle solutions)</label
-      >
-    </div>
-    <table id="board">
-      <tr>
-        <td>R</td>
-        <td>O</td>
-        <td>A</td>
-        <td>T</td>
-        <td>E</td>
-        <td class="guess-button"><span></span></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="guess-button"><span></span></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="guess-button"><span></span></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="guess-button"><span></span></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="guess-button"><span></span></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="guess-button nope"></td>
-      </tr>
-    </table>
-    <script src="solvle.js"></script>
-  </body>
+
+<head>
+  <title>SOLVLE</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <script src="allWords.js"></script>
+  <script src="possibleSolutions.js"></script>
+</head>
+
+<body>
+  <div id="caption">SOLVLE</div>
+  <div id="stumped">
+    <div style="text-align: right">&#x2573;</div>
+    <h2>YOU STUMPED ME!</h2>
+    What was your word?
+    <input id="actualWord" maxlength="5" autocomplete="off">
+    <br><br>
+
+    <div id="explainFailure"></div>
+
+  </div>
+  <div id="how-to-play" class="help">
+    <div style="text-align: right">&#x2573;</div>
+    You know what
+    <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank">WORDLE</a>
+    is, right? Where the program has a secret 5-letter word and you have to
+    guess it? In SOLVLE the roles are reversed. You have a secret 5-letter
+    word and the program has to guess it.
+    <br /><br />
+    Click the tiles with a letter in it to change its color.
+    <ul>
+      <li>
+        If a letter is not in the word, use
+        <span class="absent">THIS COLOR</span>
+      </li>
+      <li>
+        If a letter is in the word but not the right spot, use
+        <span class="present">THIS COLOR</span>
+      </li>
+      <li>
+        If a letter is in the word and in the correct spot, use
+        <span class="correct">THIS COLOR</span>
+      </li>
+    </ul>
+    Once you have rated all five letters in the word, click "guess" to get the
+    program's next guess.
+    <br />
+    <br />
+    You can use SOLVLE to play WORDLE, by using SOLVLE's guesses in WORDLE and
+    then using WORDLE's color ratings in SOLVLE.
+    <br /><br />
+    If you want to use SOLVLE to cheat even more you can click the "Cheat
+    more" checkbox, and then SOLVLE will assume that the hidden word is
+    a known WORDLE solution.
+  </div>
+  <div id="explain">
+    <span id="help-button" class="help">?</span>
+    <input id="cheat-more" type="checkbox" autocomplete="off" /><label for="cheat-more">Cheat more (target known wordle
+      solutions)</label>
+  </div>
+  <table id="board">
+    <tr>
+      <td>R</td>
+      <td>O</td>
+      <td>A</td>
+      <td>T</td>
+      <td>E</td>
+      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="guess-button nope"></td>
+    </tr>
+  </table>
+</body>
+<script src="solvle.js"></script>
+
 </html>

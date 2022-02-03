@@ -11,29 +11,35 @@
   --color-absent: var(--color-tone-2);
   --tile-text-color: var(--color-tone-7);
   --key-text-color: var(--color-tone-1);
-  --color-background:var(--color-tone-7);
+  --color-background: var(--color-tone-7);
 }
+
 .wait {
-	cursor: wait !important; 
+  cursor: wait !important;
 }
-.wait * {    
-	pointer-events: none !important; 
+
+.wait * {
+  pointer-events: none !important;
 }
+
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   background-color: var(--color-background);
   margin: 0;
   padding: 0;
 }
+
 #board {
   margin: auto;
   width: 80vmin;
   height: 80vmin;
   padding: 0px;
 }
+
 #board td {
   border: 1px solid black;
   width: 15%;
@@ -51,23 +57,26 @@ body {
   content: 'guess';
   font-size: 3vmin;
   font-weight: 300;
-  vertical-align: middle;  
+  vertical-align: middle;
 }
 
 ul {
   list-style-position: inside;
   padding-left: 0.5em;
 }
+
 .absent {
   background-color: var(--color-absent);
   color: var(--tile-text-color) !important;
   border: 1px solid white !important;
 }
+
 .present {
   background-color: var(--color-present);
   color: var(--tile-text-color) !important;
   border: 1px solid white !important;
 }
+
 .correct {
   background-color: var(--color-correct);
   color: var(--tile-text-color) !important;
@@ -80,7 +89,8 @@ ul {
   text-align: center;
   font-size: 2.5vmin;
 }
-#how-to-play {
+
+#how-to-play, #stumped {
   position: absolute;
   background-color: var(--color-background);
   z-index: 100;
@@ -96,16 +106,37 @@ ul {
   left: 0;
   right: 0;
 }
+
+#stumped {
+  text-align: center;
+}
+
 #help-button {
-  font-size: 4vmin;
+  font-size: 3vmin;
   border: 1px solid black;
+  border-radius: 3vmin;
+  margin: auto;
+  width: 3vmin;
   padding: 0.5vmin;
   user-select: none;
+  display: block;
+  font-weight: 600;
 }
+
 #caption {
   font-size: 8vmin;
   font-weight: 700;
   margin: auto;
   width: 50%;
   text-align: center;
+}
+
+.inline-word span {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+}
+
+span.inline-word {
+  white-space: nowrap;
 }

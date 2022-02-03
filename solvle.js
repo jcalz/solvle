@@ -6,7 +6,7 @@ function shuffleArray(array) {
     }
 }
 shuffleArray(words);
-const Color = {GREEN: "\uD83D\uDFE9", YELLOW: "\uD83D\uDFE8", BLACK: "\u2B1B"};
+const Color = { GREEN: "\uD83D\uDFE9", YELLOW: "\uD83D\uDFE8", BLACK: "\u2B1B" };
 const G = Color.GREEN;
 const Y = Color.YELLOW;
 const B = Color.BLACK;
@@ -64,7 +64,7 @@ function bestGuess(possibleWords, guessableWords) {
         for (const possibleWord of possibleWords) {
             const result = rateGuess(possibleWord, guess);
             const key = result.join('');
-            numWordsForResult[key] = (numWordsForResult[key]||0) + 1;
+            numWordsForResult[key] = (numWordsForResult[key] || 0) + 1;
         }
         let n = 0;
         let w = 0;
@@ -91,6 +91,16 @@ const states = {
     present: Y,
     correct: G,
 };
+const stateClass = {
+    [B]: "absent",
+    [Y]: "present",
+    [G]: "correct"
+}
+
+const stumped = document.getElementById("stumped");
+const actualWordInput = document.getElementById("actualWord");
+const explainFalure = document.getElementById("explainFailure");
+
 document.querySelector('#board tbody').addEventListener('click', function (event) {
     var td = event.target;
     while (td !== this && !td.matches('td')) {
@@ -106,17 +116,18 @@ document.querySelector('#board tbody').addEventListener('click', function (event
             if (idx >= 0)
                 td.classList.remove(cellStates[idx]);
             td.classList.add(cellStates[(idx + 1) % cellStates.length]);
-			let found = false;
-			for (const r of cells) {
-				if (found) r.forEach(c => {
-					c.innerText="";
-					c.classList.remove("present","absent","correct");
-				});
-				for (const c of r) {
-					if (td === c) {found = true;}
-				}
-				
-			}
+            stumped.style.display = "none";
+            let found = false;
+            for (const r of cells) {
+                if (found) r.forEach(c => {
+                    c.innerText = "";
+                    c.classList.remove("present", "absent", "correct");
+                });
+                for (const c of r) {
+                    if (td === c) { found = true; }
+                }
+
+            }
         }
     }
     else {
@@ -129,31 +140,31 @@ function yld() {
 }
 
 async function doGuess() {
-	// if the player put any absent (black) letter earlier in the word
-	// than the same letter as present (yellow) then this is a mistake
-	// and they should be swapped. (e.g., in CANAL, you can have 
-	// the first A be 🟨 and the second a be ⬛ but not vice versa)
-	cells.forEach(r => {
-		const seenAbsent = {};
-		for (let i = 0; i < r.length; i++) {
-			const c = r[i];
-			const letter = c.innerText.toUpperCase();
-			if ((letter in seenAbsent) && c.classList.contains("present")) {
-			    const j = seenAbsent[letter].shift();
-				const cSwap = r[j];					
-				cSwap.classList.remove("absent");
-				cSwap.classList.add("present");
-				c.classList.remove("present");
-				c.classList.add("absent");				
-			} 
-			if (c.classList.contains("absent")) {
-				seenAbsent[letter] = seenAbsent[letter]||[];
-				seenAbsent[letter].push(i);
-			}			
-		}
-	});
-    
-	const wordsAndResults = cells.map((r) => ({
+    // if the player put any absent (black) letter earlier in the word
+    // than the same letter as present (yellow) then this is a mistake
+    // and they should be swapped. (e.g., in CANAL, you can have 
+    // the first A be 🟨 and the second a be ⬛ but not vice versa)
+    cells.forEach(r => {
+        const seenAbsent = {};
+        for (let i = 0; i < r.length; i++) {
+            const c = r[i];
+            const letter = c.innerText.toUpperCase();
+            if ((letter in seenAbsent) && c.classList.contains("present")) {
+                const j = seenAbsent[letter].shift();
+                const cSwap = r[j];
+                cSwap.classList.remove("absent");
+                cSwap.classList.add("present");
+                c.classList.remove("present");
+                c.classList.add("absent");
+            }
+            if (c.classList.contains("absent")) {
+                seenAbsent[letter] = seenAbsent[letter] || [];
+                seenAbsent[letter].push(i);
+            }
+        }
+    });
+
+    const wordsAndResults = cells.map((r) => ({
         word: r
             .map((x) => x.innerText)
             .join('')
@@ -174,15 +185,25 @@ async function doGuess() {
     if (i >= wordsAndResults.length)
         return;
     console.log(afterGuess);
-	document.body.classList.add("wait");
-	await yld();
+    document.body.classList.add("wait");
+    await yld();
     const g = bestGuess(afterGuess, words);
-	await yld();
-	document.body.classList.remove("wait");	
-	
-    cells[i].forEach((c, j) => c.innerText = g[j]||'?');
+    await yld();
+    document.body.classList.remove("wait");
+    if (!g) {
+        if (cheatMore.checked) {
+            cheatMore.checked = false;
+            doGuess();
+            return;
+        }
+        explainFailure.innerHTML = "";
+        stumped.style.display = "block";
+        actualWordInput.value = "";
+    } else {
+        cells[i].forEach((c, j) => c.innerText = g[j]);
+    }
 }
-const toggleHelp = (ev) => {    
+const toggleHelp = (ev) => {
     const el = document.getElementById('how-to-play');
     el.style.display = el.style.display !== 'block' ? 'block' : 'none';
 };
@@ -190,6 +211,55 @@ document
     .querySelectorAll('.help')
     .forEach((x) => x.addEventListener('click', toggleHelp));
 if (!localStorage.getItem('seenHelp')) {
-  toggleHelp();
-  localStorage.setItem('seenHelp', 'true');
+    toggleHelp();
+    localStorage.setItem('seenHelp', 'true');
 }
+
+stumped.addEventListener("click", (e) => (e.target !== actualWordInput) ? stumped.style.display = "none" : void 0);
+
+actualWordInput.addEventListener("input", () => {
+    const actualWord = actualWordInput.value.toUpperCase().replace(/[^A-Z]/g, "").substring(0, 5);
+    actualWordInput.value = actualWord;
+    if (actualWord.length !== 5) {
+        explainFailure.innerHTML = "";
+        return;
+    }
+
+    if (!words.includes(actualWord)) {
+        explainFailure.innerHTML = "I am not aware that " + actualWord + " is a word. &#x1F914;<br><br>" +
+            "That's really odd, I am aware of lots of crazy words like ZOPPO.  Where'd you get that from?";
+    } else {
+        const wordsAndResults = cells.map((r) => ({
+            word: r
+                .map((x) => x.innerText)
+                .join('')
+                .toUpperCase(),
+            result: r.map((x) => states[cellStates.find((c) => x.classList.contains(c))]),
+        }));
+        const problems = [];
+        const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
+
+        for (let i = 0; i < wordsAndResults.length; i++) {
+            const w = wordsAndResults[i].word;
+            const r = wordsAndResults[i].result;
+            if ((w.length !== 5) || (!r.every(x => x !== undefined))) break;
+            const realR = rateGuess(actualWord, w);
+            if (realR.join("") !== r.join("")) {
+                const inlineWord = (r) => '<span class="inline-word">' + w.split("").map(
+                    (l, i) => '<span class="' + stateClass[r[i]] + '">' + l + '</span>').join("") + "</span>";
+                problems.push("you colored my " + ordinal[i] + " guess like " +
+                    inlineWord(r) + ", but if your word is " + actualWord + " then I think " +
+                    "you should have colored it like " + inlineWord(realR) + ".");
+            }
+        }
+        if (!problems.length) {
+            explainFailure.innerHTML = "Oh, something went wrong and I don't know what. I need a human programmer or something. &#x1F622;";
+        } else {
+            explainFailure.innerHTML = "But wait, that can't be right.  &#x1F615;<br><br>So " +
+                problems.join("<br><br>and ") + "<br><br>Which one of us made a mistake?";
+        }
+    }
+
+
+});
+
