@@ -11,6 +11,7 @@
 
 <body>
   <div id="caption">SOLVLE</div>
+  <div id="thinking">&#x23F3;&#x1F914;&#x23F3;</div>
   <div id="stumped">
     <div style="text-align: right">&#x2573;</div>
     <h2>YOU STUMPED ME!</h2>
@@ -19,7 +20,13 @@
     <br><br>
 
     <div id="explainFailure"></div>
+    <br><br>
 
+  </div>
+  <div id="won">
+    <div style="text-align: right">&#x2573;</div>
+    <h2>YAY I GUESSED IT!</h2>
+    <br><br>
   </div>
   <div id="how-to-play" class="help">
     <div style="text-align: right">&#x2573;</div>
@@ -61,53 +68,50 @@
       solutions)</label>
   </div>
   <table id="board">
-    <tr>
+    <tr class="tile-row">
       <td>R</td>
       <td>O</td>
       <td>A</td>
       <td>T</td>
       <td>E</td>
-      <td class="guess-button"><span></span></td>
+    </tr>
+    <tr class="tile-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="tile-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="tile-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="tile-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="tile-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="guess-button"><span></span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="guess-button"><span></span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="guess-button"><span></span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="guess-button"><span></span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="guess-button nope"></td>
+      <td colspan="6" class="guess-button">guess</td>
     </tr>
   </table>
 </body>

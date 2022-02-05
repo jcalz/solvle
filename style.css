@@ -35,29 +35,30 @@ body {
 
 #board {
   margin: auto;
-  width: 80vmin;
+  width: 60vmin;
   height: 80vmin;
   padding: 0px;
 }
 
 #board td {
   border: 1px solid black;
-  width: 15%;
+  width: 20%;
   height: 15%;
   vertical-align: middle;
   padding: 0px;
   text-align: center;
-  font-size: 10vmin;
+  font-size: 8vmin;
   font-weight: 700;
   color: var(--key-text-color);
   user-select: none;
 }
 
-#board td.guess-button span::after {
+#board td.guess-button {
   content: 'guess';
-  font-size: 3vmin;
+  font-size: 4vmin;
   font-weight: 300;
   vertical-align: middle;
+  height: 10%
 }
 
 ul {
@@ -90,7 +91,7 @@ ul {
   font-size: 2.5vmin;
 }
 
-#how-to-play, #stumped {
+#how-to-play, #stumped, #won {
   position: absolute;
   background-color: var(--color-background);
   z-index: 100;
@@ -107,7 +108,27 @@ ul {
   right: 0;
 }
 
-#stumped {
+#thinking {
+  position: absolute;
+  z-index: 200;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2vmin;
+  width: 80vmin;
+  height: 80vmin;
+  font-size: 12vmin;
+  justify-content: center;
+  padding: 4px;
+  left: 0;
+
+  right: 0
+}
+
+
+#stumped, #won {
   text-align: center;
 }
 

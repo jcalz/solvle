@@ -83,7 +83,7 @@ function bestGuess(possibleWords, guessableWords) {
     return bestGuess;
 }
 const board = document.getElementById('board');
-const cells = Array.from(board.querySelectorAll('tr')).map((r) => Array.from(r.querySelectorAll('td')).filter((x) => !x.classList.contains('guess-button')));
+const cells = Array.from(board.querySelectorAll('tr.tile-row')).map((r) => Array.from(r.querySelectorAll('td')).filter((x) => !x.classList.contains('guess-button')));
 const cheatMore = document.getElementById('cheat-more');
 const cellStates = ['absent', 'present', 'correct'];
 const states = {
@@ -98,6 +98,7 @@ const stateClass = {
 }
 
 const stumped = document.getElementById("stumped");
+const won = document.getElementById("won");
 const actualWordInput = document.getElementById("actualWord");
 const explainFalure = document.getElementById("explainFailure");
 
@@ -129,8 +130,7 @@ document.querySelector('#board tbody').addEventListener('click', function (event
 
             }
         }
-    }
-    else {
+    } else {
         doGuess();
     }
 });
@@ -180,16 +180,22 @@ async function doGuess() {
             break;
         if (!r.every((x) => x !== undefined))
             return;
+        if (r.join("") === bestResult) {
+            won.style.display = "block";
+            return;
+        }
         afterGuess = findWordsMatchingGuess(afterGuess, w, r);
     }
     if (i >= wordsAndResults.length)
         return;
     console.log(afterGuess);
     document.body.classList.add("wait");
+    document.getElementById("thinking").style.display = "flex";
     await yld();
     const g = bestGuess(afterGuess, words);
     await yld();
     document.body.classList.remove("wait");
+    document.getElementById("thinking").style.display = "none";
     if (!g) {
         if (cheatMore.checked) {
             cheatMore.checked = false;
@@ -199,6 +205,7 @@ async function doGuess() {
         explainFailure.innerHTML = "";
         stumped.style.display = "block";
         actualWordInput.value = "";
+        actualWordInput.focus();
     } else {
         cells[i].forEach((c, j) => c.innerText = g[j]);
     }
@@ -216,6 +223,7 @@ if (!localStorage.getItem('seenHelp')) {
 }
 
 stumped.addEventListener("click", (e) => (e.target !== actualWordInput) ? stumped.style.display = "none" : void 0);
+won.addEventListener("click", (e) => won.style.display = "none");
 
 actualWordInput.addEventListener("input", () => {
     const actualWord = actualWordInput.value.toUpperCase().replace(/[^A-Z]/g, "").substring(0, 5);
