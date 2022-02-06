@@ -182,12 +182,18 @@ async function doGuess() {
             return;
         if (r.join("") === bestResult) {
             won.style.display = "block";
+            document.getElementById("win-text").innerHTML = [
+                "I'm a Genius! &#x1F913;",
+                "I'm Magnificent! &#x2728;",
+                "I'm Impressive! &#x1F603;",
+                "I'm Splendid! &#x1F600;",
+                "I'm Great. &#x1F642;",
+                "Phew! &#x1F60C;"
+            ][i]
             return;
         }
         afterGuess = findWordsMatchingGuess(afterGuess, w, r);
     }
-    if (i >= wordsAndResults.length)
-        return;
     console.log(afterGuess);
     document.body.classList.add("wait");
     document.getElementById("thinking").style.display = "flex";
@@ -196,7 +202,7 @@ async function doGuess() {
     await yld();
     document.body.classList.remove("wait");
     document.getElementById("thinking").style.display = "none";
-    if (!g) {
+    if (!g || (i >= wordsAndResults.length)) {
         if (cheatMore.checked) {
             cheatMore.checked = false;
             doGuess();
@@ -260,11 +266,14 @@ actualWordInput.addEventListener("input", () => {
                     "you should have colored it like " + inlineWord(realR) + ".");
             }
         }
-        if (!problems.length) {
-            explainFailure.innerHTML = "Oh, something went wrong and I don't know what. I need a human programmer or something. &#x1F622;";
-        } else {
+        if (problems.length) {
             explainFailure.innerHTML = "But wait, that can't be right.  &#x1F615;<br><br>So " +
                 problems.join("<br><br>and ") + "<br><br>Which one of us made a mistake?";
+        } else if (cells[cells.length - 1].every(c => cellStates.find((s) => c.classList.contains(s)))) {
+            explainFalure.innerHTML = "Darn! I ran out of guesses.  You're too good for me! &#x1F605;"
+        }
+        else {
+            explainFailure.innerHTML = "Oh, something went wrong and I don't know what. I need a human programmer or something. &#x1F622;";
         }
     }
 
