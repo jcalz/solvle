@@ -100,6 +100,7 @@ const stateClass = {
 const stumped = document.getElementById("stumped");
 const won = document.getElementById("won");
 const actualWordInput = document.getElementById("actualWord");
+const actualWordLabel = document.getElementById("actualWordLabel");
 const explainFalure = document.getElementById("explainFailure");
 
 document.querySelector('#board tbody').addEventListener('click', function (event) {
@@ -228,8 +229,11 @@ if (!localStorage.getItem('seenHelp')) {
     localStorage.setItem('seenHelp', 'true');
 }
 
-stumped.addEventListener("click", (e) => (e.target !== actualWordInput) ? stumped.style.display = "none" : void 0);
-won.addEventListener("click", (e) => won.style.display = "none");
+document.body.addEventListener("click", (e) => {
+    if (e.target.classList.contains('guess-button')) return;
+    if (e.target !== actualWordInput && e.target !== actualWordLabel) stumped.style.display = "none";
+    won.style.display = "none";
+})
 
 actualWordInput.addEventListener("input", () => {
     const actualWord = actualWordInput.value.toUpperCase().replace(/[^A-Z]/g, "").substring(0, 5);
