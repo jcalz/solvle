@@ -1,3 +1,3 @@
-Solvle
+PLAY [SOLVLE](https://jcalz.github.io/solvle)!
 
-update
+
