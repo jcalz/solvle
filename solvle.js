@@ -140,6 +140,35 @@ function yld() {
     return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 }
 
+// a cache of guesses for guess #2 with "cheat more" disabled
+const guessCache = {
+    [[B, B, B, B, B].join("")]: "LIMNS",
+
+    [[B, B, B, B, Y].join("")]: "SILED",
+    [[B, B, B, Y, B].join("")]: "SHUNT",
+    [[B, B, Y, B, B].join("")]: "NALAS",
+    [[B, Y, B, B, B].join("")]: "LINOS",
+    [[Y, B, B, B, B].join("")]: "GUIDS",
+
+    [[B, B, B, B, G].join("")]: "SLING",
+    [[B, B, B, G, B].join("")]: "SINHS",
+    [[B, B, G, B, B].join("")]: "SHULN",
+    [[B, G, B, B, B].join("")]: "CLONS",
+    [[G, B, B, B, B].join("")]: "MINKS",
+
+    [[B, B, B, Y, Y].join("")]: "TELES",
+    [[B, B, Y, B, Y].join("")]: "LANDS",
+    [[B, B, Y, Y, B].join("")]: "TAILS",
+    [[B, Y, B, B, Y].join("")]: "LENOS",
+    [[B, Y, B, Y, B].join("")]: "SUINT",
+    [[B, Y, Y, B, B].join("")]: "SALON",
+    [[Y, B, B, B, Y].join("")]: "IDEES",
+    [[Y, B, B, Y, B].join("")]: "TRIPS",
+    [[Y, B, Y, B, B].join("")]: "SAKAI",
+    [[Y, Y, B, B, B].join("")]: "CRIOS",
+
+}
+
 async function doGuess() {
     // if the player put any absent (black) letter earlier in the word
     // than the same letter as present (yellow) then this is a mistake
@@ -199,7 +228,15 @@ async function doGuess() {
     document.body.classList.add("wait");
     document.getElementById("thinking").style.display = "flex";
     await yld();
-    const g = bestGuess(afterGuess, words);
+
+    let g = undefined;
+    // check cached guesses for guess #2
+    if ((!cheatMore.checked) && (i === 1)) {
+        g = guessCache[wordsAndResults[0].result.join("")];
+    }
+    if (!g) {
+        g = bestGuess(afterGuess, words);
+    }
     await yld();
     document.body.classList.remove("wait");
     document.getElementById("thinking").style.display = "none";
